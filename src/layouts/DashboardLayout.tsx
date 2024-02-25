@@ -4,6 +4,8 @@ import {
     AppstoreOutlined,
     BarChartOutlined,
     CloudOutlined,
+    MailOutlined,
+    SettingOutlined,
     ShopOutlined,
     TeamOutlined,
     UploadOutlined,
@@ -12,9 +14,53 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Dropdown, Flex, Layout, Menu, theme } from 'antd';
-import { MetaMaskButton } from '@metamask/sdk-react-ui';
+import Link from 'next/link';
 
 const { Header, Content, Footer, Sider } = Layout;
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    type?: 'group',
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    } as MenuItem;
+}
+
+const sidebarItems: MenuProps['items'] = [
+    getItem('Analytics', 'analytics', null, [getItem(<Link href={`/dashboard`}>Dashboard</Link>, '13'), getItem('Option 14', '14')], 'group'),
+    getItem('Basic', 'basic', null, [getItem(<Link href={`/users`}>Users</Link>, 'Users'), getItem('Ads', 'Ads')], 'group'),
+
+    getItem('Navigation One', 'sub1', <MailOutlined />, [
+        getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
+        getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
+    ]),
+
+    getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
+        getItem('Option 5', '5'),
+        getItem('Option 6', '6'),
+        getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
+    ]),
+
+    { type: 'divider' },
+
+    getItem('Content', 'sub4', <SettingOutlined />, [
+        getItem('Content 1', '9'),
+        getItem('Content 2', '10'),
+        getItem('Content 3', '11'),
+        getItem('Content 4', '12'),
+    ]),
+
+];
 
 const items: MenuProps['items'] = [
     UserOutlined,
@@ -49,8 +95,8 @@ const DashboardLayout = ({ children }: {
                 // collapsible
                 style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}
             >
-                <div className="demo-logo-vertical" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+                <Link href={`/`}><img src='vercel.svg' height={"64px"} style={{ padding: "10px" }} /></Link>
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={sidebarItems} />
             </Sider>
             <Layout style={{ marginLeft: 200 }}>
                 <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -62,11 +108,6 @@ const DashboardLayout = ({ children }: {
                             style={{ flex: 1, minWidth: 0 }}
                         />
 
-                        {/* <MetaMaskButton
-                            theme={"dark"}
-                            color="white"
-                            icon="original"
-                        ></MetaMaskButton> */}
                         <Dropdown menu={{ items }}>
 
                             <Avatar icon={<UserOutlined />} style={{ margin: "15px" }} />
@@ -75,31 +116,9 @@ const DashboardLayout = ({ children }: {
                     </Flex>
                 </Header>
                 <Content style={{ margin: '0 16px 0', overflow: 'initial' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb>
 
-                    <div
-                        style={{
-                            padding: 24,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        {children}
-                        <p>long content</p>
-                        {
-                            // indicates very long content
-                            Array.from({ length: 100 }, (_, index) => (
-                                <React.Fragment key={index}>
-                                    {index % 20 === 0 && index ? 'more' : '...'}
-                                    <br />
-                                </React.Fragment>
-                            ))
-                        }
-                    </div>
+                    {children}
+
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
