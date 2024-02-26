@@ -38,7 +38,7 @@ function getItem(
 
 const sidebarItems: MenuProps['items'] = [
     getItem('Analytics', 'analytics', null, [getItem(<Link href={`/dashboard`}>Dashboard</Link>, '13'), getItem('Option 14', '14')], 'group'),
-    getItem('Basic', 'basic', null, [getItem(<Link href={`/users`}>Users</Link>, 'Users'), getItem('Ads', 'Ads')], 'group'),
+    getItem('Basic', 'basic', null, [getItem(<Link href={`/users`}>Users</Link>, 'Users'), getItem(<Link href={`/ads/page/1`}>Ads</Link>, 'Ads')], 'group'),
 
     getItem('Navigation One', 'sub1', <MailOutlined />, [
         getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
@@ -77,7 +77,7 @@ const items: MenuProps['items'] = [
     label: `nav ${index + 1}`,
 }));
 
-const DashboardLayout = ({ children }: {
+const AdminLayout = ({ children }: {
     children: React.ReactNode
 }) => {
     const {
@@ -115,7 +115,7 @@ const DashboardLayout = ({ children }: {
 
                     </Flex>
                 </Header>
-                <Content style={{ margin: '0 16px 0', overflow: 'initial' }}>
+                <Content style={{ margin: '16px', overflow: 'initial',minHeight:"100vh" }}>
 
                     {children}
 
@@ -128,4 +128,4 @@ const DashboardLayout = ({ children }: {
     );
 };
 
-export default DashboardLayout
+export default AdminLayout
