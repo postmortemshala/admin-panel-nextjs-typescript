@@ -1,5 +1,5 @@
 "use client"
-import { Button, Card, Flex, Space, Table, TableProps, Tag } from "antd"
+import { Button, Card, Flex, Image, Space, Table, TableProps, Tag } from "antd"
 import Link from "next/link";
 import React, { Fragment } from "react";
 import SeekSolutionApi from "seeksolution/utils/SeekSolutionApi";
@@ -13,11 +13,8 @@ const AdsListing = ({ accessToken }: {
 
     interface DataType {
         key: string;
-        name: string;
-        age: number;
-        address: string;
+        image: string;
         createdAt?: string;
-        tags: string[];
         status: string
         pixels: Array<{ x: number, y: number }>;
     }
@@ -41,6 +38,9 @@ const AdsListing = ({ accessToken }: {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
+            render: (_, record) => <Flex gap={"small"} align="center">
+                <Image src={record.image} width={40} height={40} />{_}
+            </Flex>
         },
         {
             title: 'Link',
@@ -68,6 +68,9 @@ const AdsListing = ({ accessToken }: {
             title: 'Clicked',
             dataIndex: 'click_count',
             key: 'click_count',
+            render: (_, record) => (
+                <span>{_ || 0}</span>
+            )
         },
         {
             title: 'Action',
@@ -103,7 +106,7 @@ const AdsListing = ({ accessToken }: {
 
     return <Card title="Ads">
 
-        <Table columns={columns} dataSource={state} />;
+        <Table columns={columns} dataSource={state} pagination={false} />;
 
     </Card>
 
