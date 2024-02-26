@@ -41,12 +41,21 @@ const Advertisements = {
     requests.get(`advertisements/${_id}`),
   update: (body: any, id: string) =>
     requests.patch(`advertisements/${id}`, body),
+  accept: (id: string, body: any) =>
+    requests.patch(`advertisements/${id}/approve`, body),
+  reject: (id: string, body: any) =>
+    requests.patch(`advertisements/${id}/decline`, body),
+};
+const Users = {
+  pagination: () =>
+    requests.get(`users`),
 };
 
 export default {
   API_ROOT,
   Auth,
   Advertisements,
+  Users,
   encode,
   setToken: (_token?: string) => { token = _token; }
 };

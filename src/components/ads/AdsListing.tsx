@@ -1,22 +1,52 @@
 "use client"
 import { Button, Card, Flex, Image, Space, Table, TableProps, Tag } from "antd"
+import moment from "moment";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React, { Fragment } from "react";
+import { GlobalContext } from "seeksolution/context/Provider";
 import SeekSolutionApi from "seeksolution/utils/SeekSolutionApi";
 import { EStatus } from "seeksolution/utils/constant";
 
 const AdsListing = ({ accessToken }: {
     accessToken: string
 }) => {
-
+    const params = useParams()
+    const { Toast, loading, setLoading } = React.useContext(GlobalContext)
     const [state, setState] = React.useState([])
 
     interface DataType {
         key: string;
         image: string;
+        actionAt?: string;
         createdAt?: string;
+        clickCount?: number;
         status: string
         pixels: Array<{ x: number, y: number }>;
+    }
+
+    const acceptAd = async () => {
+        setLoading(true)
+        try {
+            const apiRes = await SeekSolutionApi.Advertisements.accept(params._id as string, {})
+            await initialiseApi()
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
+    const rejectAd = async () => {
+        setLoading(true)
+
+        try {
+            const apiRes = await SeekSolutionApi.Advertisements.reject(params._id as string, {})
+            await initialiseApi()
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
     }
 
     const columns: TableProps<DataType>['columns'] = [
@@ -31,7 +61,7 @@ const AdsListing = ({ accessToken }: {
             dataIndex: 'age',
             key: 'age',
             render: (_, record) => (
-                <span>{record.createdAt}</span>
+                <span>{Math.abs(moment().diff(moment(record.actionAt || record.createdAt).add(1, "year"), 'month'))} month left</span>
             )
         },
         {
@@ -66,8 +96,8 @@ const AdsListing = ({ accessToken }: {
         },
         {
             title: 'Clicked',
-            dataIndex: 'click_count',
-            key: 'click_count',
+            dataIndex: 'clickCount',
+            key: 'clickCount',
             render: (_, record) => (
                 <span>{_ || 0}</span>
             )
@@ -78,8 +108,8 @@ const AdsListing = ({ accessToken }: {
             render: (_, record) => (
                 <Flex gap="small">
                     {record.status == EStatus.PENDING ? <Fragment>
-                        <Button>Accept</Button>
-                        <Button danger>Reject</Button>
+                        <Button onClick={acceptAd}>Accept</Button>
+                        <Button danger onClick={rejectAd}>Reject</Button>
                     </Fragment> :
                         <Button type="primary">View</Button>
                     }
@@ -106,7 +136,12 @@ const AdsListing = ({ accessToken }: {
 
     return <Card title="Ads">
 
-        <Table columns={columns} dataSource={state} pagination={false} />;
+        <Table
+            columns={columns}
+            dataSource={state}
+            pagination={false}
+            loading={loading}
+        />;
 
     </Card>
 
