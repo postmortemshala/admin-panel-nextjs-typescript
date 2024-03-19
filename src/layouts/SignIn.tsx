@@ -14,8 +14,10 @@ const SignIn = () => {
         setLoading(true)
         try {
             const apiRes = await SeekSolutionApi.Auth.signin(values)
-            setToken(apiRes.token)
-            router.replace("/dashboard")
+            if (apiRes.admin) {
+                setToken(apiRes.token)
+                router.replace("/dashboard")
+            }
         } catch (error) {
             Toast.error(error)
         } finally {
