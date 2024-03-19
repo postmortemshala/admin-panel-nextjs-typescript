@@ -32,30 +32,25 @@ const Auth = {
   signin: (body: any) =>
     requests.post(`signin`, body),
 };
-const Advertisements = {
+const Devices = {
   create: (body: any) =>
-    requests.post(`advertisements`, body),
+    requests.post(`devices`, body),
   pagination: () =>
-    requests.get(`advertisements`),
+    requests.get(`devices`),
   _id: (_id: string) =>
-    requests.get(`advertisements/${_id}`),
+    requests.get(`devices/${_id}`),
   update: (body: any, id: string) =>
-    requests.patch(`advertisements/${id}`, body),
+    requests.patch(`devices/${id}`, body),
   accept: (id: string, body: any) =>
-    requests.patch(`advertisements/${id}/approve`, body),
+    requests.patch(`devices/${id}/approve`, body),
   reject: (id: string, body: any) =>
-    requests.patch(`advertisements/${id}/decline`, body),
-};
-const Users = {
-  pagination: () =>
-    requests.get(`users`),
+    requests.patch(`devices/${id}/decline`, body),
 };
 
 export default {
   API_ROOT,
   Auth,
-  Advertisements,
-  Users,
+  Devices,
   encode,
   setToken: (_token?: string) => { token = _token; }
 };
