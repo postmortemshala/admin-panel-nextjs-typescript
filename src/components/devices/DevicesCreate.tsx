@@ -2,24 +2,25 @@
 import { FilePdfOutlined, FolderAddOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Form, Image, Input, Space, Table, TableProps, Tag, Upload } from "antd"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { Fragment } from "react";
 import SeekSolutionApi from "seeksolution/utils/SeekSolutionApi";
 
 const DevicesListing = ({ accessToken }: {
     accessToken: string
 }) => {
-
+    const router = useRouter()
     const [loading, setLoading] = React.useState(false)
 
     const initialiseApi = async (values: any) => {
         try {
             setLoading(true)
             SeekSolutionApi.setToken(accessToken)
-            console.log("accessToken",accessToken);
-            
+            console.log("accessToken", accessToken);
+
             const apiRes = await SeekSolutionApi.Devices.create(values)
             console.log("apiRes", apiRes);
-
+            router.replace("/")
         } catch (error) {
 
         } finally {
@@ -31,31 +32,31 @@ const DevicesListing = ({ accessToken }: {
 
     return <Card title="Create Device" >
         <Form
-        onFinish={initialiseApi}
+            onFinish={initialiseApi}
             layout="vertical"
         >
-            <Form.Item label="Make" name={"make"}>
+            <Form.Item label="Make" name={"make"} required>
                 <Input placeholder="Enter make name" />
             </Form.Item>
 
-            <Form.Item label="Model" name={"model"}>
+            <Form.Item label="Model" name={"model"} required>
                 <Input placeholder="Enter model name" />
             </Form.Item>
 
 
-            <Form.Item label="Sr Number" name={"slNumber"}>
+            <Form.Item label="Sr Number" name={"slNumber"} required>
                 <Input placeholder="Enter sr number name" />
             </Form.Item>
 
-            <Form.Item label="Asset" name={"asset"}>
+            <Form.Item label="Asset" name={"asset"} required>
                 <Input placeholder="Enter asset name" />
             </Form.Item>
 
-            <Form.Item label="Specefication" name={"specefication"}>
+            <Form.Item label="Specefication"  >
                 <Upload.Dragger>Select file</Upload.Dragger>
             </Form.Item>
 
-            <Form.Item label="Drawing" name={"drawing"}>
+            <Form.Item label="Drawing" >
                 <Upload.Dragger>Select file</Upload.Dragger>
             </Form.Item>
             <Button type="primary" htmlType="submit" block loading={loading}>Create</Button>
