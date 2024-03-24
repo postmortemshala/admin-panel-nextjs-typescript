@@ -9,8 +9,8 @@ export function middleware(request: NextRequest) {
 
     let cookie = request.cookies.get(ACCESS_TOKEN)
     if (!cookie) {
-        url.pathname = '/signin'
-        return NextResponse.redirect(url)
+        // url.pathname = '/signin'
+        // return NextResponse.redirect(url)
     }
     return NextResponse.next()
 }

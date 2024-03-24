@@ -34,6 +34,7 @@ function GlobalProvider(props: GlobleContextProviderProps) {
   const [selectedFiles, setSelectedFile] = useState<Array<any>>([]);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [colorPrimary, setColorPrimary] = useState("#6C5DD3");
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -96,10 +97,10 @@ function GlobalProvider(props: GlobleContextProviderProps) {
 
           theme={{
             algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-            // token: {
-            //   colorPrimary: colorPrimary,
-            //   fontFamily: montserrat.style.fontFamily,
-            // },
+            token: {
+              colorPrimary: colorPrimary,
+              // fontFamily: montserrat.style.fontFamily,
+            },
             components: {
 
             },
