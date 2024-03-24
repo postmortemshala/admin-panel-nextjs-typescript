@@ -12,10 +12,14 @@ export function middleware(request: NextRequest) {
         // url.pathname = '/signin'
         // return NextResponse.redirect(url)
     }
+    if (url.pathname =="/") {
+        url.pathname = '/devices/page/1'
+        return NextResponse.redirect(url)
+    }
     return NextResponse.next()
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/', '/dashboard/:path*', '/ads/:path*'],
+    matcher: ['/', '/dashboard/:path*', '/devices/:path*'],
 }

@@ -49,9 +49,9 @@ const Advertisements = {
   pagination: () => requests.get(`advertisements`),
   _id: (_id: string) => requests.get(`advertisements/${_id}`),
   update: (body: any, id: string) =>
-    requests.patch(`advertisements/${id}`, body),
+    requests.patch(`devices/${id}`, body),
   accept: (id: string, body: any) =>
-    requests.patch(`advertisements/${id}/approve`, body),
+    requests.patch(`devices/${id}/approve`, body),
   reject: (id: string, body: any) =>
     requests.patch(`advertisements/${id}/decline`, body),
 };
