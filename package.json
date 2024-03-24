@@ -17,6 +17,8 @@
     "nextjs-toploader": "^1.6.6",
     "react": "^18",
     "react-dom": "^18",
+    "react-quill": "^2.0.0",
+    "recharts": "^2.12.3",
     "superagent": "^8.1.2",
     "superagent-promise": "^1.1.0"
   },
